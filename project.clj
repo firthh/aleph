@@ -14,7 +14,9 @@
   '[[org.clojure/tools.logging "0.4.1" :exclusions [org.clojure/clojure]]
     [manifold "0.1.8"]
     [byte-streams "0.2.5-alpha1"]
-    [potemkin "0.4.5"]])
+    [potemkin "0.4.5"]
+    [org.clojure/clojure "1.9.0"]
+    [com.jcraft/jzlib    "1.1.3"]])
 
 (defproject aleph "0.4.7-alpha1"
   :description "a framework for asynchronous communication"
@@ -42,7 +44,8 @@
   :plugins [[lein-codox "0.9.4"]
             [lein-jammin "0.1.1"]
             [lein-marginalia "0.9.0"]
-            [ztellman/lein-cljfmt "0.1.10"]]
+            [ztellman/lein-cljfmt "0.1.10"]
+            [io.taylorwood/lein-native-image "0.2.0-SNAPSHOT"]]
   :java-source-paths ["src/aleph/utils"]
   :javac-options ["-target" "1.7", "-source" "1.7"]
   :cljfmt {:indents {#".*" [[:inner 0]]}}
@@ -59,4 +62,9 @@
                        #_"-XX:+PrintCompilation"
                        #_"-XX:+UnlockDiagnosticVMOptions"
                        #_"-XX:+PrintInlining"]
-  :global-vars {*warn-on-reflection* true})
+  :global-vars {*warn-on-reflection* true}
+
+  :main aleph.server
+  :native-image {:graal-bin "/Users/hugosharman-firth/Downloads/graalvm-1.0.0-rc1/Contents/Home/bin"
+                 :name "aleph"
+                 :opts ["-H:+ReportUnsupportedElementsAtRuntime"]})
